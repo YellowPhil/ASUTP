@@ -1,0 +1,22 @@
+
+memory = 2048
+numcpu = 2
+
+ids_ip = "192.168.59.10"
+
+
+Vagrant.configure("2") do |cfg|
+  cfg.vm.provider "virtualbox" do |vbox|
+    vbox.memory = memory
+    vbox.cpus = numcpu
+    # vbox.gui = true
+  end
+
+  cfg.vm.define "ids" do |ids|
+    ids.vm.box = "ubuntu/bionic64"
+    ids.vm.hostname = "surricata"
+    ids.vm.network "private_network", ip: ids_ip
+    ids.vm.provision"shell", path: "provisioning/install_surricata.sh"
+  end
+end
+
